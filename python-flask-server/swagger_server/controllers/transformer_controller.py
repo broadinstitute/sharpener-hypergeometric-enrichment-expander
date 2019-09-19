@@ -11,8 +11,8 @@ from swagger_server.models.attribute import Attribute
 
 #REQUIREMENTS
 import scipy.stats
-
-msigdb_gmt_file='swagger_server/controllers/dat/c2.all.v7.0.entrez.gmt'
+#available at http://software.broadinstitute.org/gsea/downloads.jsp
+msigdb_gmt_file='dat/c2.all.v7.0.entrez.gmt'
 
 #END REQUIREMENTS
 
