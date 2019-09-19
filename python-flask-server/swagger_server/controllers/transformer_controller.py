@@ -141,9 +141,9 @@ def transformer_info_get():  # noqa: E501
     return TransformerInfo(
         name = 'Hypergeometric gene set enrichment expander',
         function = 'expander',
-        operation = 'enrichment',
-        ui_label = 'HyperGeomEnrich',
-        source_url = 'http://software.broadinstitute.org/gsea/downloads.jsp',
+        #operation = 'enrichment',
+        #ui_label = 'HyperGeomEnrich',
+        #source_url = 'http://software.broadinstitute.org/gsea/downloads.jsp',
         description = 'Gene-list expander that adds all genes in pathways enriched for genes in the input',
         parameters = [Parameter(x, default_control_types[x], default_control_values[x]) for x in valid_controls],
         required_attributes = ['identifiers.entrez','gene_symbol']
