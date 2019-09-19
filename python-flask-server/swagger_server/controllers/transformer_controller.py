@@ -151,8 +151,8 @@ def transform_post(query):  # noqa: E501
 
     for gene_set_id in sorted(gene_set_qvalues.keys(), key=lambda x: gene_set_qvalues[x]):
         for gene_id in gene_set_gene_ids[gene_set_id]:
-            if gene_id not in genes:
-                gene_entrez_id = "NCBIGene:%s" % gene_id
+            gene_entrez_id = "NCBIGene:%s" % gene_id
+            if gene_entrez_id not in genes:
                 genes[gene_entrez_id] = GeneInfo(
                     gene_id = gene_entrez_id,
                     identifiers = GeneInfoIdentifiers(entrez = gene_entrez_id),
