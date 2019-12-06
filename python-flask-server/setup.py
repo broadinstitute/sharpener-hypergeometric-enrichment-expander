@@ -18,10 +18,10 @@ REQUIRES = ["connexion"]
 setup(
     name=NAME,
     version=VERSION,
-    description="Hypergeometric enrichment expander",
+    description="MSigDB hypergeometric enrichment expander",
     author_email="",
     url="",
-    keywords=["Swagger", "Hypergeometric enrichment expander"],
+    keywords=["Swagger", "MSigDB hypergeometric enrichment expander"],
     install_requires=REQUIRES,
     packages=find_packages(),
     package_data={'': ['swagger/swagger.yaml']},
@@ -29,7 +29,7 @@ setup(
     entry_points={
         'console_scripts': ['swagger_server=swagger_server.__main__:main']},
     long_description="""\
-    Gene set expander based on hypergeometric enrichment test.
+    Gene-list expander based on hypergeometric enrichment in MSigDB gene sets (http://software.broadinstitute.org/gsea/index.jsp).
     """
 )
 
