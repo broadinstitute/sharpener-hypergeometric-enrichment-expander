@@ -7,6 +7,7 @@ from swagger_server.models.attribute import Attribute
 #REQUIREMENTS
 import scipy.stats
 from numpy import array, empty
+import json
 #available at http://software.broadinstitute.org/gsea/downloads.jsp
 msigdb_gmt_files=['dat/c2.all.current.0.entrez.gmt', 'dat/c5.all.current.0.entrez.gmt']
 
@@ -14,11 +15,12 @@ msigdb_gmt_files=['dat/c2.all.current.0.entrez.gmt', 'dat/c5.all.current.0.entre
 
 transformer_name = 'MSigDB hypergeometric enrichment expander'
 valid_controls = ['max p-value', 'max q-value']
+control_names = {'max p-value': 'max p-value', 'max q-value': 'max q-value'}
 default_control_values = {'max p-value': 1e-5, 'max q-value': 0.05}
 default_control_types = {'max p-value': 'double', 'max q-value': 'double'}
 
 def get_control(controls, control):
-    value = controls[control] if control in controls else default_control_values[control]
+    value = controls[control_names[control]] if control_names[control] in controls else default_control_values[control]
     if default_control_types[control] == 'double':
         return float(value)
     elif default_control_types[control] == 'Boolean':
@@ -144,7 +146,8 @@ def expand(query):  # noqa: E501
                       Attribute(
                         name = 'gene set',
                         value = gene_set_id,
-                        source = transformer_name
+                        source = transformer_name,
+                        url = 'http://software.broadinstitute.org/gsea/msigdb/cards/{}.html'.format(gene_set_id)
                       ),
                       Attribute(
                         name = 'p-value',
@@ -175,14 +178,12 @@ def expander_info():  # noqa: E501
 
     :rtype: TransformerInfo
     """
-    return TransformerInfo(
-        name = transformer_name,
-        function = 'expander',
-        #operation = 'enrichment',
-        #ui_label = 'HyperGeomEnrich',
-        #source_url = 'http://software.broadinstitute.org/gsea/downloads.jsp',
-        description = 'Gene-list expander based on hypergeometric enrichment in MSigDB gene sets (http://software.broadinstitute.org/gsea/index.jsp).',
-        parameters = [Parameter(x, default_control_types[x], default_control_values[x]) for x in valid_controls],
-        required_attributes = ['identifiers.entrez','gene_symbol']
-    )
+    global transformer_name, control_names
+
+    with open("transformer_info.json",'r') as f:
+        info = TransformerInfo.from_dict(json.loads(f.read()))
+        transformer_name = info.name
+        control_names = dict((name,parameter.name) for name, parameter in zip(valid_controls, info.parameters))
+        return info
+
 
